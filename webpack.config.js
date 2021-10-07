@@ -151,7 +151,7 @@ module.exports = (env, argv) => {
     },
     resolve: {
       modules: [__dirname, "src", "node_modules"],
-      extensions: ["*", ".js", ".jsx", ".scss", ".less", ".css"],
+      extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
       alias: {
         "@": APP_DIR, // shortcut to reference src folder from anywhere
         "@@": path.resolve(),
