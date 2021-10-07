@@ -1,34 +1,21 @@
 import "./app.less";
-import logo from "@assets/logo/logo.svg";
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-} from "react-router-dom";
-import Home from "../containers/Home";
-import About from "../containers/About";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import routes, { CURRENT_MODULES, MODULES } from "@app/routes";
+import PagesRoute from "@utils/components/PagesRoute";
 
-const App = () => (
-  <Router>
-    <div className="App">
-      <Route path="/" exact component={Home} />
-      <Route path="/about" component={About} />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  </Router>
-);
+const App = () => {
+  console.warn = () => {};
+
+  return (
+    <Router>
+      <Switch>
+        {routes.map((route, index) => (
+          <PagesRoute key={index} {...route} />
+        ))}
+      </Switch>
+    </Router>
+  );
+};
 
 export default App;
