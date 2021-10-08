@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import Loadable from "react-loadable";
 import Home from "../../containers/Home";
 import About from "../../containers/About";
 // import surveyRoutes from "./survey";
@@ -12,18 +12,24 @@ const RELATIVE_PATH = process.env.RELATIVE_PATH || "/";
 export default [
   //#region Home page
   {
-    path: RELATIVE_PATH,
+    path: "/",
     exact: true,
     public: true,
-    title: "Welcome to my world!!!",
-    component: Home,
+    title: "Home",
+    component: Loadable({
+      loader: () => import("@containers/Home"),
+      loading: () => <></>,
+    }),
   },
   {
-    path: RELATIVE_PATH + "about",
+    path: "/about",
     exact: true,
     public: true,
-    title: "Welcome to my world!!!",
-    component: About,
+    title: "About",
+    component: Loadable({
+      loader: () => import("@containers/About"),
+      loading: () => <></>,
+    }),
   },
   //#endregion
   // //#region DASHBOARD

@@ -157,6 +157,7 @@ module.exports = (env, argv) => {
         "@@": path.resolve(),
         "@app": APP_DIR + "/app",
         "@assets": APP_DIR + "/assets",
+        "@containers": APP_DIR + "/containers",
         "@dashboard": APP_DIR + "/dashboard",
         "@components": APP_DIR + "/components",
         "@surveys": APP_DIR + "/www/survey",

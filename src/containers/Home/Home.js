@@ -2,6 +2,7 @@ import "./Home.less";
 import logo from "@assets/images/logo.svg";
 
 const Home = () => {
+  console.log('home');
   return (
     <>
       <div className="App">

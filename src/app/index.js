@@ -2,13 +2,12 @@ import "./app.less";
 import React, { lazy, Suspense } from "react";
 import cmsFavicon from "@assets/favicons/dashboard/favicon.ico";
 import surveyFavicon from "@assets/favicons/survey/favicon.ico";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 import PagesRoute from "@utils/components/PagesRoute";
 import ProgressBar from "@components/common/ProgressBar";
 import gVariable from "@stores/shared/variables";
 import routes, { CURRENT_MODULES, MODULES } from "@app/routes";
-import Home from "../containers/Home";
-import About from "../containers/About";
+import logo from "@assets/images/logo.svg";
 //#region useHooks,components, helper
 import BackdropSpin from "@components/common/BackdropSpin";
 // import SnackbarmaUI from "@components/common/Snackbar";
@@ -65,15 +64,22 @@ const App = () => {
         <div>
           <ul>
             <li>
-              <Link to="/">Home Page</Link>
+              <Link to="/public">Public Page</Link>
             </li>
             <li>
-              <Link to="/about">About Page</Link>
+              <Link to="/protected">Protected Page</Link>
             </li>
           </ul>
 
-          <Route path="/" component={Home} />
-          <Route path="/about" component={About} />
+          <Route path="/public">
+            <Public />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <PrivateRoute path="/protected">
+            <Protected />
+          </PrivateRoute>
         </div>
       </Router>
       {/** Snackbar show message results */}
@@ -106,3 +112,37 @@ const dynamicFavicons = () => {
     document.body.classList.add(CURRENT_MODULES());
   }
 };
+
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    this.isAuthenticated = true;
+    setTimeout(cb, 100); // fake async
+  },
+  signout(cb) {
+    this.isAuthenticated = false;
+    setTimeout(cb, 100); // fake async
+  },
+};
+
+const Public = () => <h3>Public</h3>;
+const Protected = () => <h3>Protected</h3>;
+
+function Login() {
+  return <div>Login</div>;
+}
+
+function PrivateRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={() => {
+        return fakeAuth.isAuthenticated === true ? (
+          children
+        ) : (
+          <Redirect to="/login" />
+        );
+      }}
+    />
+  );
+}

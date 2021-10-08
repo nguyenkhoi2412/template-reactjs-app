@@ -4,7 +4,7 @@ const PagesRoute = ({ children, isAuthenticated = false, ...rest }) => {
   React.useEffect(() => {
     document.title = rest.title;
   }, [rest.title]);
-
+console.log('resst', rest);
   switch (rest.public) {
     case true:
       return <Route {...rest} component={children} />;
