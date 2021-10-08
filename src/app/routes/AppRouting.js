@@ -1,16 +1,31 @@
-import React, { Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "../../containers/Home";
-import About from "../../containers/About";
+import routes from "./index";
 
-const AppRouting = () => {
+const AppRouting = ({ isAuthenticated = false }) => {
   return (
     <Router>
       <Suspense fallback={<>Loading...</>}>
         <Switch>
+          {routes.map((route, index) => {
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                component={route.component}
+              />
+            );
+          })}
+          {/* add your routes & additional routings which for public user here. */}
+          {/* <Route
+            path={"/"}
+            component={lazy(() => import("../../containers/Home"))}
+          />
+          <Route
+            path={"/about"}
+            component={lazy(() => import("../../containers/About"))}
+          /> */}
           {/* add your routes & additional routings which need authenticated user here. */}
-          <Route path={"/"} component={Home} />
-          <Route path={"/about"} component={About} />
         </Switch>
       </Suspense>
     </Router>

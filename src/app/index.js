@@ -1,5 +1,5 @@
 import "./app.less";
-import React, { Suspense } from "react";
+import React from "react";
 import cmsFavicon from "@assets/favicons/dashboard/favicon.ico";
 import surveyFavicon from "@assets/favicons/survey/favicon.ico";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";

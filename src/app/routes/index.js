@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import Home from "../../containers/Home";
 import About from "../../containers/About";
-import surveyRoutes from "./survey";
+// import surveyRoutes from "./survey";
 
 // const dashboardImport = import(
 //   "@dashboard/containers/RenderPages/LayoutTemplate"
