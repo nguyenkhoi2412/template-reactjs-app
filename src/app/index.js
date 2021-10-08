@@ -7,6 +7,7 @@ import PagesRoute from "@utils/components/PagesRoute";
 import ProgressBar from "@components/common/ProgressBar";
 import gVariable from "@stores/shared/variables";
 import routes, { CURRENT_MODULES, MODULES } from "@app/routes";
+import AppRouting from "@app/routes/AppRouting";
 //#region useHooks,components, helper
 import BackdropSpin from "@components/common/BackdropSpin";
 // import SnackbarmaUI from "@components/common/Snackbar";
@@ -20,9 +21,6 @@ import BackdropSpin from "@components/common/BackdropSpin";
 // } from "@redux/providers/site.reducer";
 // import { TYPE_GET_BY_SITE } from "@redux/providers/type.reducer";
 import { Helpers } from "@utils/helpers";
-
-import Home from "../containers/Home";
-import About from "../containers/About";
 
 const App = () => {
   console.warn = () => {};
@@ -62,22 +60,7 @@ const App = () => {
     <>
       <ProgressBar />
       <BackdropSpin />
-      <Router>
-        <Suspense fallback={<>Loading...</>}>
-          <Switch>
-            {routes.map((route, index) => (
-              // <PagesRoute key={index} {...route}>
-              //   {route.component}
-              // </PagesRoute>
-              <Route key={index} path={route.path} component={route.component} />
-            ))}
-          </Switch>
-        </Suspense>
-        {/* <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/about" component={About} />
-        </Switch> */}
-      </Router>
+      <AppRouting />
       {/** Snackbar show message results */}
       {/* <SnackbarmaUI /> */}
     </>
