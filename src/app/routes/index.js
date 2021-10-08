@@ -16,14 +16,14 @@ export default [
     exact: true,
     public: true,
     title: "Welcome to my world!!!",
-    component: lazy(() => import("../../containers/Home")),
+    component: Home,
   },
   {
     path: RELATIVE_PATH + "about",
     exact: true,
     public: true,
     title: "Welcome to my world!!!",
-    component: lazy(() => import("../../containers/About")),
+    component: About,
   },
   //#endregion
   // //#region DASHBOARD
