@@ -7,24 +7,17 @@ const PagesRoute = ({ children, isAuthenticated = false, ...rest }) => {
 
   switch (rest.public) {
     case true:
-      return <Route {...rest} render={() => children} />;
+      return <Route {...rest} component={children} />;
 
     default:
-      return (
-        <Route
-          {...rest}
-          render={({ location }) =>
-            isAuthenticated ? (
-              children
-            ) : (
-              <Redirect
-                to={{
-                  pathname: "/dashboard/login",
-                  state: { from: location },
-                }}
-              />
-            )
-          }
+      return isAuthenticated ? (
+        <Route {...rest} component={children} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/dashboard/login",
+            state: { from: location },
+          }}
         />
       );
   }
