@@ -69,7 +69,7 @@ const App = () => {
               // <PagesRoute key={index} {...route}>
               //   {route.component}
               // </PagesRoute>
-              <Route key={index} {...route} />
+              <Route key={index} path={route.path} component={route.component} />
             ))}
           </Switch>
         </Suspense>
