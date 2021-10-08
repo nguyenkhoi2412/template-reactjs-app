@@ -1,18 +1,40 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from "../../containers/Home";
+import About from "../../containers/About";
+import Page from "./Page";
+import { CURRENT_MODULES, MODULES } from "./index";
+
+const RELATIVE_PATH = process.env.RELATIVE_PATH || "/";
 
 const AppRouting = ({ isAuthenticated = false }) => {
+  const currentModule = RELATIVE_PATH + CURRENT_MODULES();
+
+  //   React.useEffect(() => {
+  //     const rou = routes.filter((r) => r.path === currentModule);
+  //     if (rou.length) {
+  //       document.title = rou[0].title;
+  //     }
+  //   }, [currentModule]);
+
   return (
     <Router>
       <Suspense fallback={<>Loading...</>}>
         <Switch>
           {routes.map((route) => {
             return (
-              <Route
+              <Page
                 key={Math.random()}
+                exact
                 path={route.path}
                 component={route.component}
+                title={route.title}
               />
+              //   <Route
+              //     key={Math.random()}
+              //     path={route.path}
+              //     component={route.component}
+              //   />
             );
           })}
           {/* add your routes & additional routings which for public user here. */}
@@ -33,8 +55,6 @@ const AppRouting = ({ isAuthenticated = false }) => {
 
 export default AppRouting;
 
-const RELATIVE_PATH = process.env.RELATIVE_PATH || "/";
-
 const routes = [
   //#region Home page
   {
@@ -42,13 +62,13 @@ const routes = [
     exact: true,
     public: true,
     title: "Welcome to my world!!!",
-    component: lazy(() => import("../../containers/Home")),
+    component: Home,
   },
   {
     path: RELATIVE_PATH + "about",
     exact: true,
     public: true,
-    title: "Welcome to my world!!!",
-    component: lazy(() => import("../../containers/About")),
+    title: "Welcome to my about!!!",
+    component: About,
   },
 ];
