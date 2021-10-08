@@ -1,6 +1,6 @@
-import Loadable from "react-loadable";
-import Home from "../../containers/Home";
-import About from "../../containers/About";
+import { lazy } from "react";
+import Home from "@containers/Home";
+import About from "@containers/About";
 // import surveyRoutes from "./survey";
 
 // const dashboardImport = import(
@@ -12,24 +12,17 @@ const RELATIVE_PATH = process.env.RELATIVE_PATH || "/";
 export default [
   //#region Home page
   {
-    path: "/",
-    exact: true,
+    path: "/home",
     public: true,
     title: "Home",
-    component: Loadable({
-      loader: () => import("@containers/Home"),
-      loading: () => <></>,
-    }),
+    children: <Home />,
   },
   {
     path: "/about",
     exact: true,
     public: true,
     title: "About",
-    component: Loadable({
-      loader: () => import("@containers/About"),
-      loading: () => <></>,
-    }),
+    children: <About />,
   },
   //#endregion
   // //#region DASHBOARD

@@ -2,7 +2,13 @@ import "./app.less";
 import React, { lazy, Suspense } from "react";
 import cmsFavicon from "@assets/favicons/dashboard/favicon.ico";
 import surveyFavicon from "@assets/favicons/survey/favicon.ico";
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import PagesRoute from "@utils/components/PagesRoute";
 import ProgressBar from "@components/common/ProgressBar";
 import gVariable from "@stores/shared/variables";
@@ -21,6 +27,9 @@ import BackdropSpin from "@components/common/BackdropSpin";
 // } from "@redux/providers/site.reducer";
 // import { TYPE_GET_BY_SITE } from "@redux/providers/type.reducer";
 import { Helpers } from "@utils/helpers";
+
+import Home from "@containers/Home";
+import About from "@containers/About";
 
 const App = () => {
   console.warn = () => {};
@@ -58,32 +67,34 @@ const App = () => {
 
   return (
     <>
-      <ProgressBar />
-      <BackdropSpin />
-      <Router>
-        <div>
-          <ul>
-            <li>
-              <Link to="/public">Public Page</Link>
-            </li>
-            <li>
-              <Link to="/protected">Protected Page</Link>
-            </li>
-          </ul>
-
-          <Route path="/public">
-            <Public />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <PrivateRoute path="/protected">
-            <Protected />
-          </PrivateRoute>
-        </div>
-      </Router>
-      {/** Snackbar show message results */}
-      {/* <SnackbarmaUI /> */}
+      <div className="App">
+        <ProgressBar />
+        <BackdropSpin />
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <Router>
+            <div>
+              <ul>
+                <li>
+                  <Link to="/home">Home Page</Link>
+                </li>
+                <li>
+                  <Link to="/about">About Page</Link>
+                </li>
+              </ul>
+              <Switch>
+                {routes.map((route, index) => (
+                  <PagesRoute key={index} {...route}>
+                    {route.children}
+                  </PagesRoute>
+                ))}
+              </Switch>
+            </div>
+          </Router>
+        </header>
+        {/** Snackbar show message results */}
+        {/* <SnackbarmaUI /> */}
+      </div>
     </>
   );
 };
@@ -112,37 +123,3 @@ const dynamicFavicons = () => {
     document.body.classList.add(CURRENT_MODULES());
   }
 };
-
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100); // fake async
-  },
-};
-
-const Public = () => <h3>Public</h3>;
-const Protected = () => <h3>Protected</h3>;
-
-function Login() {
-  return <div>Login</div>;
-}
-
-function PrivateRoute({ children, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={() => {
-        return fakeAuth.isAuthenticated === true ? (
-          children
-        ) : (
-          <Redirect to="/login" />
-        );
-      }}
-    />
-  );
-}
