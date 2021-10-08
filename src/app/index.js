@@ -68,8 +68,10 @@ const App = () => {
             <PagesRoute key={index} {...route} />
           ))}
         </Switch> */}
-        <Route path="/" exact component={Home} />
-        <Route path="/about" component={About} />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/about" component={About} />
+        </Switch>
       </Router>
       {/** Snackbar show message results */}
       {/* <SnackbarmaUI /> */}
