@@ -1,8 +1,8 @@
 import "./app.less";
-import React from "react";
+import React, { Suspense } from "react";
 import cmsFavicon from "@assets/favicons/dashboard/favicon.ico";
 import surveyFavicon from "@assets/favicons/survey/favicon.ico";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import PagesRoute from "@utils/components/PagesRoute";
 import ProgressBar from "@components/common/ProgressBar";
 import gVariable from "@stores/shared/variables";
@@ -20,9 +20,6 @@ import BackdropSpin from "@components/common/BackdropSpin";
 // } from "@redux/providers/site.reducer";
 // import { TYPE_GET_BY_SITE } from "@redux/providers/type.reducer";
 import { Helpers } from "@utils/helpers";
-
-import Home from "../containers/Home";
-import About from "../containers/About";
 
 const App = () => {
   console.warn = () => {};
@@ -63,15 +60,15 @@ const App = () => {
       <ProgressBar />
       <BackdropSpin />
       <Router>
-        {/* <Switch>
-          {routes.map((route, index) => (
-            <PagesRoute key={index} {...route} />
-          ))}
-        </Switch> */}
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/about" component={About} />
-        </Switch>
+        <Suspense fallback={<>Loading...</>}>
+          <Switch>
+            {routes.map((route, index) => (
+              <PagesRoute key={index} {...route}>
+                {route.component}
+              </PagesRoute>
+            ))}
+          </Switch>
+        </Suspense>
       </Router>
       {/** Snackbar show message results */}
       {/* <SnackbarmaUI /> */}

@@ -1,4 +1,4 @@
-import Loadable from "react-loadable";
+import { lazy } from "react";
 import Home from "../../containers/Home";
 import About from "../../containers/About";
 import surveyRoutes from "./survey";
@@ -16,20 +16,14 @@ export default [
     exact: true,
     public: true,
     title: "Welcome to my world!!!",
-    component: Loadable({
-      loader: () => import("../../containers/Home"),
-      loading: () => <></>,
-    }),
+    component: lazy(() => import("../../containers/Home")),
   },
   {
     path: RELATIVE_PATH + "about",
     exact: true,
     public: true,
     title: "Welcome to my world!!!",
-    component: Loadable({
-      loader: () => import("../../containers/About"),
-      loading: () => <></>,
-    }),
+    component: lazy(() => import("../../containers/About")),
   },
   //#endregion
   // //#region DASHBOARD

@@ -1,26 +1,26 @@
-import { Redirect, Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
-const PagesRoute = ({ component: Component, ...rest }) => {
+const PagesRoute = ({ children, isAuthenticated = false, ...rest }) => {
   React.useEffect(() => {
     document.title = rest.title;
   }, [rest.title]);
 
   switch (rest.public) {
     case true:
-      return <Route {...rest} render={(props) => <Component {...props} />} />;
+      return <Route {...rest} render={() => children} />;
 
     default:
       return (
         <Route
           {...rest}
-          render={(props) =>
-            true ? (
-              <Component {...props} />
+          render={({ location }) =>
+            isAuthenticated ? (
+              children
             ) : (
               <Redirect
                 to={{
                   pathname: "/dashboard/login",
-                  state: { from: props.location },
+                  state: { from: location },
                 }}
               />
             )
