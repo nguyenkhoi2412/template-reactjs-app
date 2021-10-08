@@ -1,13 +1,14 @@
 import "./app.less";
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import cmsFavicon from "@assets/favicons/dashboard/favicon.ico";
 import surveyFavicon from "@assets/favicons/survey/favicon.ico";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PagesRoute from "@utils/components/PagesRoute";
 import ProgressBar from "@components/common/ProgressBar";
 import gVariable from "@stores/shared/variables";
 import routes, { CURRENT_MODULES, MODULES } from "@app/routes";
-import AppRouting from "@app/routes/AppRouting";
+import Home from "../containers/Home";
+import About from "../containers/About";
 //#region useHooks,components, helper
 import BackdropSpin from "@components/common/BackdropSpin";
 // import SnackbarmaUI from "@components/common/Snackbar";
@@ -60,7 +61,21 @@ const App = () => {
     <>
       <ProgressBar />
       <BackdropSpin />
-      <AppRouting />
+      <Router>
+        <div>
+          <ul>
+            <li>
+              <Link to="/">Home Page</Link>
+            </li>
+            <li>
+              <Link to="/about">About Page</Link>
+            </li>
+          </ul>
+
+          <Route path="/" component={Home} />
+          <Route path="/about" component={About} />
+        </div>
+      </Router>
       {/** Snackbar show message results */}
       {/* <SnackbarmaUI /> */}
     </>
