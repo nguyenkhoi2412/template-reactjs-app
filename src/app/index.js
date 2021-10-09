@@ -28,9 +28,6 @@ import BackdropSpin from "@components/common/BackdropSpin";
 // import { TYPE_GET_BY_SITE } from "@redux/providers/type.reducer";
 import { Helpers } from "@utils/helpers";
 
-import Home from "@containers/Home";
-import About from "@containers/About";
-
 const App = () => {
   console.warn = () => {};
   dynamicFavicons();
@@ -70,28 +67,16 @@ const App = () => {
       <div className="App">
         <ProgressBar />
         <BackdropSpin />
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <Router>
-            <div>
-              <ul>
-                <li>
-                  <Link to="/home">Home Page</Link>
-                </li>
-                <li>
-                  <Link to="/about">About Page</Link>
-                </li>
-              </ul>
-              <Switch>
-                {routes.map((route, index) => (
-                  <PagesRoute key={index} {...route}>
-                    {route.children}
-                  </PagesRoute>
-                ))}
-              </Switch>
-            </div>
-          </Router>
-        </header>
+        <Router>
+          <Switch>
+            <Redirect exact from="/" to="/home" />
+            {routes.map((route, index) => (
+              <PagesRoute key={index} {...route}>
+                {route.children}
+              </PagesRoute>
+            ))}
+          </Switch>
+        </Router>
         {/** Snackbar show message results */}
         {/* <SnackbarmaUI /> */}
       </div>

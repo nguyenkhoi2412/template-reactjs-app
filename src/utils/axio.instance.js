@@ -47,34 +47,37 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (responseError) => {
-    removeLocalToken();
+    // 405: Method Not Allowed
+    if (responseError.response.status !== 405) {
+      removeLocalToken();
 
-    // Return any error which is not due to authentication back to the calling service
-    if (responseError.response.status !== 401) {
-      return Promise.reject(responseError);
-    }
-    /*
-     * When response code is 401, try to refresh the token.
-     * Eject the interceptor so it doesn't loop in case
-     * token refresh causes the 401 response
-     */
-    axios.interceptors.response.eject(axiosInstance);
-    const params = {
-      refresh_token: getLocalRefreshToken(),
-    };
-
-    authServices.refreshToken(params).then((rs) => {
-      let module = localStorage.getItem(CURRENT_MODULES());
-      if (module !== null) {
-        module = JSON.parse(module);
-        module = {
-          ...module,
-          accessToken: rs.data.access_token,
-        };
+      // Return any error which is not due to authentication back to the calling service
+      if (responseError.response.status !== 401) {
+        return Promise.reject(responseError);
       }
+      /*
+       * When response code is 401, try to refresh the token.
+       * Eject the interceptor so it doesn't loop in case
+       * token refresh causes the 401 response
+       */
+      axios.interceptors.response.eject(axiosInstance);
+      const params = {
+        refresh_token: getLocalRefreshToken(),
+      };
 
-      referedEvent(responseError.response);
-    });
+      authServices.refreshToken(params).then((rs) => {
+        let module = localStorage.getItem(CURRENT_MODULES());
+        if (module !== null) {
+          module = JSON.parse(module);
+          module = {
+            ...module,
+            accessToken: rs.data.access_token,
+          };
+        }
+
+        referedEvent(responseError.response);
+      });
+    }
   }
 );
 //#endregion

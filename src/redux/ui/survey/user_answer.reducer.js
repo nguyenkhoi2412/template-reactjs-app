@@ -40,13 +40,21 @@ export const USER_ANSWER_UPDATE = createAsyncThunk(
   }
 );
 
-export // init state userAnswer
+// init state userAnswer
+const storeName = "survey";
+const getLocalUserInfos = () => {
+  if (localStorage.getItem(storeName)) {
+    return JSON.parse(localStorage.getItem(storeName)).currentUser;
+  }
+  return null;
+};
+
 const initialState = {
   isFetching: false,
   ok: true,
   message: "",
   authenticated: false,
-  userAnswer: null,
+  userAnswer: getLocalUserInfos(),
 };
 
 export const survey_UserAnswer = createSlice({
@@ -54,7 +62,7 @@ export const survey_UserAnswer = createSlice({
   initialState: initialState,
   reducers: {
     SIGN_OUT: (state) => {
-      localStorage.removeItem("survey");
+      localStorage.removeItem(storeName);
       return { ...state, ...initialState };
     },
     USER_ANSWER_STATIC: (state, action) => {
@@ -98,7 +106,7 @@ export const survey_UserAnswer = createSlice({
 
       if (response.ok && results.userAnswer) {
         localStorage.setItem(
-          "survey",
+          storeName,
           JSON.stringify({
             accessToken: results.access_token,
             refreshToken: results.refresh_token,

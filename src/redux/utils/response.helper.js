@@ -1,4 +1,3 @@
-import { current } from "@reduxjs/toolkit";
 import gVariables from "@stores/shared/variables";
 import { arrayExtension } from "@utils/helpers";
 
@@ -41,33 +40,53 @@ export default {
     };
   },
   UPDATE: (state, response, additionalData = {}) => {
-    const tempState = {
-      ...state,
-      isFetching: false,
-      ok: response.ok,
-      message: response.message,
-      action: gVariables.UPDATE,
-      d: arrayExtension.update(state.d, response.rs[0]),
-    };
+    if (response === undefined) {
+      return {
+        ...state,
+        isFetching: false,
+        ok: false,
+        message: 'Tài khoản "test", nên bạn không thể cập nhật/xóa dữ liệu',
+        action: gVariables.UPDATE,
+      };
+    } else {
+      const tempState = {
+        ...state,
+        isFetching: false,
+        ok: response.ok,
+        message: response.message,
+        action: gVariables.UPDATE,
+        d: arrayExtension.update(state.d, response.rs[0]),
+      };
 
-    return {
-      ...tempState,
-      ...additionalData,
-    };
+      return {
+        ...tempState,
+        ...additionalData,
+      };
+    }
   },
   DELETE: (state, response, additionalData = {}) => {
-    const tempState = {
-      ...state,
-      isFetching: false,
-      ok: response.ok,
-      message: response.message,
-      action: gVariables.DELETE,
-      d: arrayExtension.delete(state.d, response.rs),
-    };
+    if (response === undefined) {
+      return {
+        ...state,
+        isFetching: false,
+        ok: false,
+        message: 'Tài khoản "test", nên bạn không thể cập nhật/xóa dữ liệu',
+        action: gVariables.DELETE,
+      };
+    } else {
+      const tempState = {
+        ...state,
+        isFetching: false,
+        ok: response.ok,
+        message: response.message,
+        action: gVariables.DELETE,
+        d: arrayExtension.delete(state.d, response.rs),
+      };
 
-    return {
-      ...tempState,
-      ...additionalData,
-    };
+      return {
+        ...tempState,
+        ...additionalData,
+      };
+    }
   },
 };
